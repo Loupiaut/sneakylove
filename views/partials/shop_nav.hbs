@@ -1,7 +1,6 @@
+{{!-- HEADER --}}
 
-  {{!-- HEADER --}}
-
-  {{!-- END HEADER --}}
+{{!-- END HEADER --}}
 <div class="big-container">
   <header class="header">
     <nav class="nav-wrapper flexed-item">
@@ -29,7 +28,7 @@
           <li class="nav-item animated-link nav-item-admin">
             <a href="/prod-add">Add product</a>
           </li>
-           <li class="nav-item animated-link nav-item-admin">
+          <li class="nav-item animated-link nav-item-admin">
             <a href="/prod-manage">Manage products</a>
           </li>
           {{/if}}
@@ -37,12 +36,15 @@
       </div>
       <div class="flexed-item nav-end">
         {{#unless isLoggedIn}}
-        <a  href="/signup" id="nav_login" class="button-ternary flexed-item nav-end-item">
-          <span class="btn-text">Sign in</span>
+        <a href="/signin" id="nav_login" class="button-ternary flexed-item nav-end-item">
+          <span class="btn-text">Log in</span>
+        </a>
+        <a href="/signup" id="nav_login" class="button-ternary flexed-item nav-end-item">
+          <span class="btn-text">Sign up</span>
         </a>
         {{/unless}}
         {{#if isLoggedIn}}
-        <a  href="/logout" id="nav_logout" class="button-ternary flexed-item nav-end-item">
+        <a href="/logout" id="nav_logout" class="button-ternary flexed-item nav-end-item">
           <span class="btn-text">Log out</span>
         </a>
         {{/if}}

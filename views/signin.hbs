@@ -4,16 +4,18 @@
     <p class="form-subtitle">Enjoy yourself and be comfortable </p>
   </header>
   {{#if msg}}
-  <p class="message {{msg.status}}">{{msg.text}}</p>
+  <p class="message {{msg.status}}">{{msg.txt}}</p>
   {{/if}}
   <form method="post" action="/signin" id="form_user">
     <div class="form-item-wrapper flexed-item">
       <label for="email" class="label-ref label">Email</label>
-      <input id="email" type="email" class="input-text input" placeholder="albert.biceps@gmail.com" required value="yo@gui.com">
+      <input id="email" name="email" type="email" class="input-text input" placeholder="albert.biceps@gmail.com"
+        required value="yo@gui.com">
     </div>
     <div class="form-item-wrapper flexed-item">
       <label for="password" class="label-ref label">Password</label>
-      <input id="password" type="password"  class="input-text input" placeholder="••••••" required value="1234">
+      <input id="password" name="password" type="password" class="input-text input" placeholder="••••••" required
+        value="1234">
     </div>
     <button class="button-primary white">Log in !</button>
   </form>

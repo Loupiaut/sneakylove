@@ -73,7 +73,11 @@ app.use(eraseSessionMessage());
 
 // Getting/Using router(s)
 const basePageRouter = require("./routes/index");
+const authPageRouter = require("./routes/auth.js");
+const sneakerPageRouter = require("./routes/dashboard_sneaker");
 app.use("/", basePageRouter);
+app.use("/", authPageRouter);
+app.use("/", sneakerPageRouter);
 
 const listener = app.listen(process.env.PORT, () => {
   console.log(`app started at ${process.env.SITE_URL}:${process.env.PORT}`);
