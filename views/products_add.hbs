@@ -1,5 +1,5 @@
 <div class="big-container product-manage-wrapper flexed-item">
-  <form action="/prod-add" method="get" class="add-product-form" enctype="multiparty/form-data">
+  <form action="/prod-add" method="post" class="add-product-form" enctype="multiparty/form-data">
     {{#if msg}}
     <p class="msg {{msg.status}}">{{msg.txt}}</p>
     {{/if}}
@@ -15,8 +15,8 @@
         value="NV23498">
     </div>
     <div class="form-item-wrapper flexed-item">
-      <label for="sneaker_size" class="label-ref label">Size</label>
-      <input id="sneaker_size" name="sneaker_size" type="number" class="input-text input" placeholder="ex: 37"
+      <label for="sneaker_sizes" class="label-ref label">Size</label>
+      <input id="sneaker_sizes" name="sneaker_sizes" type="number" class="input-text input" placeholder="ex: 37"
         value="42">
     </div>
     <div class="form-item-wrapper flexed-item">
@@ -49,7 +49,7 @@
     <button class="button-primary add-sneaker-btn">Add to collection</button>
   </form>
 
-  <form method="post" action="/tag" class="add-tag-form">
+  <form method="post" action="/tag" class="add-tag-form" id="add-tag-form">
     <p id="add-tag-message" class="msg"></p>
     <h3 class="form-title">Add tags</h3>
     <div class="form-item-wrapper flexed-item">
