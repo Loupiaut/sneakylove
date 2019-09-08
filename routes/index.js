@@ -10,29 +10,50 @@ router.get("/home", (req, res) => {
   res.render("index");
 });
 
-function displayCat(req, res, cat) {
-  sneakerModel
-    .find({ sneaker_category: cat })
-    .then(dbRes => {
-      res.render("products", { category: cat, sneakers: dbRes });
-    })
-    .catch(err => console.log(err));
+function getAllTags() {
+  return (
+    tagModel
+      .find()
+      .then(dbRes => dbRes)
+      //   console.log("get all tags :", dbRes);
+      // })
+      .catch(dbErr => console.log(dbErr))
+  );
 }
-function displayAllCat(req, res) {
-  sneakerModel
-    .find()
-    .then(dbRes => {
-      res.render("products", { category: "collection", sneakers: dbRes });
-    })
-    .catch(err => console.log(err));
+
+function displaySneakersByCat(cat) {
+  if (cat === "collection") {
+    return sneakerModel
+      .find()
+      .then(dbRes => dbRes)
+      .catch(err => console.log(err));
+  } else {
+    return sneakerModel
+      .find({ sneaker_category: cat })
+      .then(dbRes => dbRes)
+      .catch(err => console.log(err));
+  }
 }
 
 router.get("/sneakers/:cat", (req, res) => {
   const askedCat = req.params.cat;
-  // console.log(askedCat);
-  if (askedCat === "collection") {
-    displayAllCat(req, res);
-  } else displayCat(req, res, askedCat);
+  // PROMISE 1 : fetch Tags
+  var getTags = getAllTags();
+
+  // PROMISE 2 : fetch Sneakers
+  var getSneakers = displaySneakersByCat(askedCat);
+
+  // PROMISE ALL : needs the promises to RETURN a value !!!!!!!!!!!!!!!!!!!!!!!!!!
+  Promise.all([getTags, getSneakers])
+    .then(values => {
+      console.log("promises completed :", values);
+      res.render("products", {
+        sneakers: values[1],
+        category: askedCat,
+        tags: values[0]
+      });
+    })
+    .catch(err => console.log(err));
 });
 
 router.get("/one-product/:id", (req, res) => {
@@ -53,10 +74,19 @@ router.get("/signin", (req, res) => {
   res.render("signin.hbs");
 });
 
+router.get("/prod-add", (req, res) => {
+  tagModel
+    .find()
+    .then(tags => res.render("products_add", { tags, scripts: ["client.js"] }))
+    .catch(dbErr => console.log(dbErr));
+});
+
 router.get("/prod-manage", (req, res) => {
   sneakerModel
     .find()
-    .then(dbRes => res.render("products_manage", { sneakers: dbRes }))
+    .then(dbRes =>
+      res.render("products_manage", { sneakers: dbRes, scripts: ["manage.js"] })
+    )
     .catch(err => console.log(err));
 });
 

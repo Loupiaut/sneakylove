@@ -4,7 +4,7 @@ const axiosHandler = axios.create({
   baseURL: "http://localhost:3000"
 });
 
-function handleClick(evt) {
+function addTag(evt) {
   evt.preventDefault();
   const label = document.getElementById("label").value;
   // console.log(label);
@@ -25,4 +25,4 @@ function handleClick(evt) {
     .catch(err => console.log(err));
 }
 
-document.getElementById("btn_new_tag").onclick = handleClick;
+document.getElementById("btn_new_tag").onclick = addTag;
