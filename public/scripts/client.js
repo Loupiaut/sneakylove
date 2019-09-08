@@ -20,7 +20,7 @@ function handleClick(evt) {
       tagList.appendChild(newTag);
       console.log("appendchild done");
       // method 2 : parentNode.innerHTML
-      // tagList.innerHTML += `<option value="${this._id}">${this.label}</option>`;
+      // tagList.innerHTML += `<option value="${res.data._id}">${res.data.label}</option>`;
     })
     .catch(err => console.log(err));
 }

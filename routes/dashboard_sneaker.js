@@ -2,6 +2,7 @@ const express = require("express"); // import express in this module
 const router = new express.Router(); // create an app sub-module (router)
 const sneakerModel = require("../models/Sneaker.js");
 const tagModel = require("../models/Tag.js");
+const uploadCloud = require("../config/cloudinary");
 
 router.get("/prod-add", (req, res) => {
   tagModel
@@ -38,17 +39,21 @@ router.post("/tag", (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.post("/prod-add", (req, res) => {
+router.post("/prod-add", uploadCloud.single("sneaker_img"), (req, res) => {
   const {
     sneaker_name,
     sneaker_ref,
     sneaker_sizes,
     sneaker_descr,
     sneaker_price,
-    sneaker_img,
+    // sneaker_img,
     sneaker_category,
     sneaker_id_tags
   } = req.body;
+  console.log(req.file);
+
+  if (req.file) sneaker_img = req.file.secure_url;
+
   const newSneaker = {
     sneaker_name,
     sneaker_ref,
@@ -70,6 +75,28 @@ router.post("/prod-add", (req, res) => {
   sneakerModel
     .create(newSneaker)
     .then(dbRes => res.redirect("/prod-add"))
+    .catch(dbErr => console.log(dbErr));
+});
+
+router.get("/product-edit/:id", (req, res) => {
+  const tagPromise = tagModel
+    .find()
+    .then(dbRes => dbRes)
+    .catch(err => console.log(err));
+  const sneakerPromise = sneakerModel
+    .find({ _id: req.params.id })
+    .then(dbRes => dbRes)
+    .catch(err => console.log(err));
+  Promise.all([tagPromise, sneakerPromise]).then(values =>
+    res.render("product_edit", { tags: values[0], sneakers: values[1] })
+  );
+});
+
+router.post("/prod-edit/:id", (req, res) => {
+  const update = req.body;
+  sneakerModel
+    .findByIdAndUpdate({ _id: req.params.id })
+    .then(debRes => res.redirect("/"))
     .catch(dbErr => console.log(dbErr));
 });
 
